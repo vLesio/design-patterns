@@ -1,3 +1,42 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿
+using System;
+using design_patterns.Messaging;
+using design_patterns.Utils;
 
-Console.WriteLine("Hello, World!");
+public class PeerApp {
+    public static void Main(string[] args) {
+
+        var app = new PeerApp();
+        app.ParseArguments(args);
+
+        while (true) {
+            Peer.Instance.ListenForMessages();
+            Thread.Sleep(1000);
+        }
+    }
+
+    private void ParseArguments(string [] args) {
+        if (args.Length < 2)
+        {
+            Console.WriteLine("Usage: PeerApp [port] [destPort]");
+            Environment.Exit(1);
+        }
+
+        try {
+            int port = int.Parse(args[0]);
+            Settings.Port = port;
+            Console.WriteLine("Port set to " + port);
+        } catch (FormatException) {
+            Console.WriteLine("Port must be an integer");
+            Environment.Exit(1);
+        }
+        try {
+            int port = int.Parse(args[1]);
+            Settings.ConnectToPort = port;
+            Console.WriteLine("Remote host port set to " + port);
+        } catch (FormatException) {
+            Console.WriteLine("Destination port must be an integer");
+            Environment.Exit(1);
+        }
+    }
+}
