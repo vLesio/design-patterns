@@ -8,10 +8,11 @@ public class PeerApp {
 
         var app = new PeerApp();
         app.ParseArguments(args);
+        
+        Peer.Instance.Start();
 
         while (true) {
-            Peer.Instance.ListenForMessages();
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
         }
     }
 
