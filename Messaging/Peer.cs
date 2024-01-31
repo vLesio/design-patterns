@@ -83,7 +83,10 @@ public class Peer {
                     // Handle status changes, e.g., when a connection is established
                     break;
                 case NetIncomingMessageType.DiscoveryRequest:
-                    Console.WriteLine(incomingMessage.SenderEndPoint);
+                    peer.SendDiscoveryResponse(peer.CreateMessage("Hello"), incomingMessage.SenderEndPoint);
+                    break;
+                case NetIncomingMessageType.DiscoveryResponse:
+                    Console.WriteLine("Received discovery response from " + incomingMessage.SenderEndPoint + ": " + incomingMessage.ReadString());
                     break;
                 default:
                     Console.WriteLine("Unhandled type: " + incomingMessage.MessageType);
