@@ -8,11 +8,14 @@ public class PeerApp {
 
         var app = new PeerApp();
         app.ParseArguments(args);
-        
-        Peer.Instance.Start();
+
+        var peer = new LocalPeer();
+        var messageHandler = new MessageHandler(peer);
 
         while (true) {
-            Thread.Sleep(500);
+            peer.DiscoverLocalPeers(Settings.ConnectToPort);
+            Thread.Sleep(3000);
+            peer.SendMessage("dupeczka");
         }
     }
 
